@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastPrep</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            overflow-x: hidden;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px 10px;
+            text-align: center;
+            position: relative;
+        }
+        header img {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            height: 50px;
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .description {
+            max-width: 800px;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            animation: slideIn 1s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .next-page {
+            margin-top: 20px;
+        }
+        .next-page a {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .next-page a:hover {
+            background-color: #45a049;
+        }
+        .summarize-section {
+            padding: 40px;
+            background-color: #ffffff;
+            margin-top: 50px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        input[type="url"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        /* Styling for the summary output section */
+        #summary-output {
+            margin-top: 20px;
+            max-width: 600px;
+            text-align: center;
+            color: #333;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        #summary-output p {
+            margin: 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        #summary-output strong {
+            color: #4CAF50;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="FastPrep Logo">
+        <h1>FastPrep</h1>
+    </header>
+
+    <main>
+        <div class="title">Welcome to FastPrep!</div>
+        <div class="description">
+            <p><strong>FastPrep</strong> is your ultimate solution for simplifying web content. With just a link, our platform retrieves and summarizes key information, saving you time and effort. Whether you're a student, researcher, or professional, FastPrep streamlines your reading process.</p>
+        </div>
+
+        <div class="next-page">
+            <a href="#summarize-section">Go to Summarize Section</a>
+        </div>
+
+        <div id="summarize-section" class="summarize-section">
+            <h2>Summarize Content</h2>
+            <p>Enter a link below to generate a quick summary of its content.</p>
+            <input type="url" placeholder="Enter a website link here" id="link-input">
+            <button onclick="fetchSummary()">Summarize</button>
+            <div id="summary-output">
+                <!-- The summarized content will be displayed here -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 FastPrep. All rights reserved.</p>
+    </footer>
+
+    <script>
+        async function fetchSummary() {
+            const link = document.getElementById('link-input').value;
+            const summaryOutput = document.getElementById('summary-output');
+
+            if (!link) {
+                alert('Please enter a valid link.');
+                return;
+            }
+
+            summaryOutput.innerHTML = `<p>Processing your request...</p>`;
+
+            try {
+                const response = await fetch('/summarize', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: link }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    summaryOutput.innerHTML = `<p><strong>Summary:</strong></p><p>${data.summary}</p>`;
+                } else {
+                    summaryOutput.innerHTML = `<p>Error: ${data.error}</p>`;
+                }
+            } catch (error) {
+                summaryOutput.innerHTML = `<p>Error: Could not process the request.</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
