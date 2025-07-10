@@ -4,10 +4,13 @@ Whether you're studying for competitive exams or just need a quick overview of a
 
 ** How It Works**
 
-Paste the Link: The user inputs the URL of any article or webpage;
-Content Extraction: The tool fetches and extracts the main text content from the given URL.
-AI-Powered Summarization: The extracted content is sent to Google Gemini API, which processes and returns a summarized version of the page.
-Output Displayed: The summary is shown on the screen in a clean, readable format – perfect for revision.
+-Paste the Link: The user inputs the URL of any article or webpage.
+
+-Content Extraction: The tool fetches and extracts the main text content from the given URL.
+
+-AI-Powered Summarization: The extracted content is sent to Google Gemini API, which processes and returns a summarized version of the page.
+
+-Output Displayed: The summary is shown on the screen in a clean, readable format – perfect for revision.
 
 ** Features**
 
